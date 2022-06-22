@@ -4,8 +4,8 @@ class CreateConcertsTable < ActiveRecord::Migration[6.1]
       t.string :name
       t.string :location
       t.string :venue
-      t.integer :artists_id
-      t.integer :users_id
+      t.integer :artist_id
+      t.integer :user_id
       t.timestamps
     end
   end

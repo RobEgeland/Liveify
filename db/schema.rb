@@ -24,8 +24,8 @@ ActiveRecord::Schema.define(version: 2022_06_22_213349) do
     t.string "name"
     t.string "location"
     t.string "venue"
-    t.integer "artists_id"
-    t.integer "users_id"
+    t.integer "artist_id"
+    t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
