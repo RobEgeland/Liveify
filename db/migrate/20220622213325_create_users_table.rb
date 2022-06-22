@@ -4,6 +4,7 @@ class CreateUsersTable < ActiveRecord::Migration[6.1]
       t.string :name
       t.integer :age
       t.string :location
+      t.timestamps
     end
   end
 end
