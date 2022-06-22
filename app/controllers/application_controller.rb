@@ -13,7 +13,12 @@ class ApplicationController < Sinatra::Base
 
   get "/concerts" do 
     concerts = Concert.all
-    concerts.to_json(include: :artist)
+    concerts.to_json(include: {artist: {include: :users}})
+  end
+
+  get "/users" do 
+    users = User.all.order(:age)
+    users.to_json
   end
 
 end
