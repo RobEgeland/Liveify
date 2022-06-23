@@ -11,10 +11,20 @@ class ApplicationController < Sinatra::Base
     artists.to_json(include: :concerts)
   end
 
+  get "/artists/:id" do 
+    artist = Artist.find(params[:id])
+    artist.to_json(include: {concerts: {include: :user}})
+  end
+
   
   get "/users" do 
     users = User.all.order(:age)
     users.to_json
+  end
+
+  get "/users/:id" do 
+    user = User.find(params[:id])
+    user.to_json(include: {concerts: {include: :artist}})
   end
   
   get "/concerts" do 
