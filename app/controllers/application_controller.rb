@@ -11,14 +11,15 @@ class ApplicationController < Sinatra::Base
     artists.to_json(include: :concerts)
   end
 
-  get "/concerts" do 
-    concerts = Concert.all
-    concerts.to_json(include: {artist: {include: :users}})
-  end
-
+  
   get "/users" do 
     users = User.all.order(:age)
     users.to_json
+  end
+  
+  get "/concerts" do 
+    concerts = Concert.all
+    concerts.to_json(include: {artist: {include: :users}})
   end
 
   post "/concerts" do 
@@ -29,6 +30,18 @@ class ApplicationController < Sinatra::Base
       concert.errors.full_messages
     end
       
+  end
+
+  patch "/concerts/:id" do 
+    concert = Concert.find(params[:id])
+    concert.update(params)
+    concert.to_json
+  end
+
+  delete "/concerts/:id" do 
+    concert = Concert.find(params[:id])
+    concert.destroy
+    concert.to_json
   end
 
 end
