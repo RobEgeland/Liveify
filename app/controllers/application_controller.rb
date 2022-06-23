@@ -21,4 +21,14 @@ class ApplicationController < Sinatra::Base
     users.to_json
   end
 
+  post "/concerts" do 
+    concert = Concert.new(params)
+    if concert.save
+      concert.to_json
+    else
+      concert.errors.full_messages
+    end
+      
+  end
+
 end
