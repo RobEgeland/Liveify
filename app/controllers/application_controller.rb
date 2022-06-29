@@ -8,7 +8,7 @@ class ApplicationController < Sinatra::Base
 
   get "/artists" do 
     artists = Artist.all
-    artists.to_json(include: :concerts)
+    artists.to_json
   end
 
   get "/artists/:id" do 
@@ -24,7 +24,17 @@ class ApplicationController < Sinatra::Base
 
   get "/users/:id" do 
     user = User.find(params[:id])
-    user.to_json(include: {concerts: {include: :artist}})
+    user.to_json(include: :concerts)
+  end
+
+  post "/users/:id/new_concert" do 
+    user = User.find(params[:id])
+    concert = Concert.new(params)
+    if concert.save
+      concert.to_json
+    else
+      concert.errors.full_messages
+    end
   end
   
   get "/concerts" do 
@@ -40,6 +50,11 @@ class ApplicationController < Sinatra::Base
       concert.errors.full_messages
     end
       
+  end
+  
+  get "/concerts/:id" do 
+    concert = Concert.find(params[:id])
+    concert.to_json(include: :artist)
   end
 
   patch "/concerts/:id" do 
