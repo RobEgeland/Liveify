@@ -27,7 +27,9 @@ class ApplicationController < Sinatra::Base
     user.to_json(include: :concerts)
   end
 
-  post "/users/:id/new_concert" do 
+ 
+
+  get "/users/:id/new" do 
     user = User.find(params[:id])
     concert = Concert.new(params)
     if concert.save
@@ -59,8 +61,11 @@ class ApplicationController < Sinatra::Base
 
   patch "/concerts/:id" do 
     concert = Concert.find(params[:id])
-    concert.update(params)
-    concert.to_json
+    if concert.update(params) 
+      concert.to_json
+    else 
+      concert.errors.full_messages
+    end
   end
 
   delete "/concerts/:id" do 
