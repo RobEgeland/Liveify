@@ -23,14 +23,14 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/users/:id" do 
-    user = User.find(params[:id])
-    user.to_json(include: :concerts)
+    find_user
+    @user.to_json(include: :concerts)
   end
 
  
 
   get "/users/:id/new" do 
-    user = User.find(params[:id])
+    find_user
     concert = Concert.new(params)
     if concert.save
       concert.to_json
@@ -55,23 +55,32 @@ class ApplicationController < Sinatra::Base
   end
   
   get "/concerts/:id" do 
-    concert = Concert.find(params[:id])
-    concert.to_json(include: :artist)
+    find_concert
+    @concert.to_json(include: :artist)
   end
 
   patch "/concerts/:id" do 
-    concert = Concert.find(params[:id])
-    if concert.update(params) 
-      concert.to_json
+    find_concert
+    if @concert.update(params) 
+      @concert.to_json
     else 
-      concert.errors.full_messages
+      @concert.errors.full_messages
     end
   end
 
   delete "/concerts/:id" do 
-    concert = Concert.find(params[:id])
-    concert.destroy
-    concert.to_json
+    find_concert
+    @concert.destroy
+    @concert.to_json
   end
+
+  private
+    def find_user
+      @user = User.find(params[:id])
+    end
+
+    def find_concert
+      @concert = Concert.find(params[:id])
+    end
 
 end
